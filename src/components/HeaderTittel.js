@@ -16,7 +16,7 @@ export default class HeaderTittel extends Component {
 
   render() {
     return (
-        <Header>
+        <Header >
           <Left>
           <Body>
           

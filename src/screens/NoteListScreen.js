@@ -13,20 +13,34 @@ export default class NoteListScreen extends Component {
     };
   }
 
-  async componentDidMount(){
-    // fetch data 
-    // fetch("http://localhost:3000/notes")
-    // .then(resp => resp.json())
-    // .then(data => console.log(data));
-
+   fetchNotes = async () => {
     const response =  await fetch("http://localhost:3000/notes");
-    const data = await response.json();
-    console.log(data);
-      
-        
+    const notes = await response.json();
+    console.log("notes before setState: ", notes);
+    this.setState(prevState => {
+      return {
+        ...prevState, 
+        notes: notes
+      }
+    }, ()=> console.log("update state: ", this.state.notes ))
+
   }
-   onGoEdit = () => {
-    this.props.navigation.navigate('NoteForm');
+  
+
+   async componentDidMount(){
+    await this.fetchNotes();     
+    const note = this.state.notes[0];
+    console.log("fetched note: ", note);
+  }
+
+   onGoEdit = (item) => {
+    const id = item.item.id;
+    const title = item.item.title;
+    const content = item.item.content;
+    const editNote ={id, title, content}
+    console.log("editNote1:" , editNote)
+
+    this.props.navigation.navigate('NoteForm', {editNote: editNote});
   }
 
   onGoAddHandler = () => {
@@ -36,26 +50,23 @@ export default class NoteListScreen extends Component {
 
   
   componentWillReceiveProps(nextProps){ 
-    console.log("inside will recieve props");
-    const { navigation } = this.props;
-    const note = navigation.getParam('note', null);
-    console.log("note inside will recieve. ", note);
-    // this.setState(prevState => ({
-    //   notes: [...prevState.notes, note]
-    // }))
+   this.fetchNotes();
   }
   
 
   render() {
-    const { navigation } = this.props;
-    const note = navigation.getParam('note', null);
-    console.log("note inside render: ", note);
+    const note = this.state.notes[0];
+    let title = '';
+
+    if(note) title = note.title;
       return (
       <View style={styles.container}>
-        <HeaderTittel name={note ? note.name : ""}
+        <HeaderTittel 
         onGoAdd={this.onGoAddHandler}
         />
-        <TittelDelete name={note ? note.name : ""}
+        <TittelDelete 
+        notes={this.state.notes}
+         noteTitle={title}
           onGoEdit={this.onGoEdit}
         />
       </View>
@@ -79,3 +90,35 @@ const styles = StyleSheet.create({
     width : "100%"
   }
 });
+
+
+
+
+/*
+
+                        <ListItem noIndent style={{  fontSize: 20, color: '#000'}}> 
+                       
+                        <View >
+                        <TouchableOpacity>
+                        <View 
+                       
+                         onPress={this.openDetailsHandler}>
+                         <Text> {item.title}</Text>
+                        </View>
+                         
+                        </TouchableOpacity>
+ 
+                        <TouchableOpacity>
+                         <View style={styles.right}>
+                         <Icon name="trash" style={styles.iconStyle}/>
+                         </View>
+                        </TouchableOpacity>
+                        </View>
+                      
+                        
+                  
+                          
+                    
+                        </ListItem>
+                   
+*/

@@ -6,11 +6,14 @@ import { Container, Button, Header,Textarea, Content, Form, Item, Input } from '
 export default class NoteForm extends Component {
 
   constructor(props) {
- //   const note = this.props.note;
+     
     super(props);
+    const editNote = this.props.editNote;
+    console.log("inside constrcutor edit:", editNote);
+    
     this.state = {
-      tittel:  "",
-      content: ""
+      tittel:  editNote ? editNote.title : '', 
+      content: editNote ? editNote.content : '', 
 
     };
   }
@@ -34,12 +37,8 @@ export default class NoteForm extends Component {
     })
   }
 
-  
-  saveButton = () => {
-    const title = this.state.tittel;
-    const content = this.state.content;
-    const note= {title, content};
-
+   postNote = (note) => {
+    
     fetch('http://localhost:3000/notes/', {
       method: 'POST',
       headers: {
@@ -49,7 +48,14 @@ export default class NoteForm extends Component {
       body: JSON.stringify(note),
     });
 
+  }
 
+  saveButton = () => {
+    const title = this.state.tittel;
+    const content = this.state.content;
+    const note= {title, content};
+     // post data to the server
+     this.postNote(note);
      this.props.goToList(note);
 
   }
