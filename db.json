@@ -1,0 +1,19 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "title": "First",
+      "content": "First content"
+    },
+    {
+      "id": 2,
+      "title": "Second",
+      "content": "Second content"
+    },
+    {
+      "title": "Siham",
+      "content": "Sitt først innhold",
+      "id": 3
+    }
+  ]
+}

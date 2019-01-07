@@ -17,7 +17,7 @@ export default class NotatDetaljer extends Component {
       <Content padder>
         <Form>
           <Item>
-            <Input placeholder="Titel" />
+            <Input name={} placeholder="Titel" />
           </Item>
 
           <Item >

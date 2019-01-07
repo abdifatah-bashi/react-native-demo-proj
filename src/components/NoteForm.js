@@ -34,12 +34,24 @@ export default class NoteForm extends Component {
     })
   }
 
-
+  
   saveButton = () => {
-    const tit = this.state.tittel;
-    const con = this.state.content;
+    const title = this.state.tittel;
+    const content = this.state.content;
+    const note= {title, content};
 
-    alert(tit + " " + con);
+    fetch('http://localhost:3000/notes/', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(note),
+    });
+
+
+     this.props.goToList(note);
+
   }
   
 

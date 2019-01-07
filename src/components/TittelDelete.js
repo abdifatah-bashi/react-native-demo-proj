@@ -1,21 +1,34 @@
 import React, { Component } from 'react';
 import {Container, Header, Content, List, ListItem, Left, Text, Right, Icon } from "native-base"
-import {StyleSheet} from "react-native"
+import {StyleSheet, TouchableOpacity} from "react-native"
 export default class TittelDelete extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            
         };
+    }
+
+     openDetailsHandler = (params) => {
+        // open edit form 
+        console.log("Inside openDetailsHandler");
+        this.props.onGoEdit();
+
     }
 
     render() {
         return (
 
                     <List>
-                        <ListItem noIndent style={{ backgroundColor: "#cde1f9" }}>
-                            <Left>
-                                <Text>Tittel</Text>
+                        <ListItem  onPress={this.openDetailsHandler} noIndent style={{ backgroundColor: "#cde1f9" }}>
+                       
+                        <Left>
+                       
+                                <Text>{this.props.name}</Text>
+                                
                             </Left>
+                
+                            
                             <Right>
                                 <Icon name="trash" style={styles.iconStyle}/>
                             </Right>

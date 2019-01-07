@@ -1,31 +1,25 @@
 import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
-import NotatDetaljer from "./src/components/NotatDetaljer";
-import HeaderTittel from "./src/components/HeaderTittel";
-import TittelDelete from "./src/components/TittelDelete"
+import {createStackNavigator, createAppContainer} from "react-navigation";
+import NoteFormScreen from "./src/screens/NoteFormScreen";
+import NoteListScreen from "./src/screens/NoteListScreen";
+
+
+const AppNavigator = createStackNavigator(
+  {
+  NoteForm: NoteFormScreen,
+  NoteList: NoteListScreen
+  }, {initialRouteName: "NoteList"}
+  
+
+);
+
+const AppContainer = createAppContainer(AppNavigator);
+
 export default class App extends Component {
   render() {
-    return (
-      <View style={styles.container}>
-        <HeaderTittel />
-        <TittelDelete />
-      </View>
-
-      //<NotatDetaljer/>
-    );
+    return <AppContainer/>;
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column'
-  }, 
-  headerBox:{
-    width : "100%"
-  },
-  tittelBox:{
 
-    width : "100%"
-  }
-});
