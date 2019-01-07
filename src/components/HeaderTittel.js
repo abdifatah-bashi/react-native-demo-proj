@@ -11,7 +11,6 @@ export default class HeaderTittel extends Component {
 
   render() {
     return (
-        <Container>
         <Header>
           <Left/>
           <Body>
@@ -19,7 +18,6 @@ export default class HeaderTittel extends Component {
           </Body>
           <Right />
         </Header>
-      </Container>
     );
   }
 }
