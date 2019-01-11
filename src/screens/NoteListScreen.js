@@ -3,34 +3,43 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import TittelDelete from "../components/TittelDelete";
 import HeaderTittel from "../components/HeaderTittel";
+import { connect } from 'react-redux';
+import ShowNotes from '../store/actions'
 
-export default class NoteListScreen extends Component {
+ class NoteListScreen extends Component {
   constructor(props) {
     console.log("inside constructor");
     super(props);
-    this.state = {
+   /* this.state = {
       notes: []
-    };
+    };*/
   }
 
    fetchNotes = async () => {
     const response =  await fetch("http://localhost:3000/notes");
     const notes = await response.json();
     console.log("notes before setState: ", notes);
-    this.setState(prevState => {
+    /*this.setState(prevState => {
       return {
         ...prevState, 
         notes: notes
       }
-    }, ()=> console.log("update state: ", this.state.notes ))
 
+    }
+    , ()=> console.log("update state: ", this.state.notes ))*/
+    console.log("notes before despatch: " , notes);
+    return notes
+    
+    
   }
   
 
    async componentDidMount(){
-    await this.fetchNotes();     
+    notes = await this.fetchNotes(); 
+    console.log("on component ", notes );
+    onShowNotes(notes)
     const note = this.state.notes[0];
-    console.log("fetched note: ", note);
+  
   }
 
    onGoEdit = (item) => {
@@ -55,18 +64,19 @@ export default class NoteListScreen extends Component {
   
 
   render() {
-    const note = this.state.notes[0];
-    let title = '';
+   // const note = this.state.notes[0];
+   // let title = '';
 
-    if(note) title = note.title;
+   // if(note) title = note.title;
       return (
       <View style={styles.container}>
         <HeaderTittel 
         onGoAdd={this.onGoAddHandler}
         />
         <TittelDelete 
-        notes={this.state.notes}
-         noteTitle={title}
+       // notes={this.state.notes}
+       notes={this.props.notes}
+        // noteTitle={title}
           onGoEdit={this.onGoEdit}
         />
       </View>
@@ -76,6 +86,19 @@ export default class NoteListScreen extends Component {
   }
 }
 
+const mapStateToProps = state =>{
+
+  return {
+    notes : state.notes
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSowNotes :(notes) => dispatch(onSowNotes(notes))
+
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -92,7 +115,7 @@ const styles = StyleSheet.create({
 });
 
 
-
+export default connect(mapStateToProps, mapDispatchToProps) (NoteListScreen);
 
 /*
 
