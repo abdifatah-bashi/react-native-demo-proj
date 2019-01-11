@@ -4,41 +4,14 @@ import { View, Text, StyleSheet } from 'react-native';
 import TittelDelete from "../components/TittelDelete";
 import HeaderTittel from "../components/HeaderTittel";
 import { connect } from 'react-redux';
-import ShowNotes from '../store/actions'
+import fetchStore from '../store/actions/actionNotes';
 
  class NoteListScreen extends Component {
-  constructor(props) {
-    console.log("inside constructor");
-    super(props);
-   /* this.state = {
-      notes: []
-    };*/
-  }
+ 
 
-   fetchNotes = async () => {
-    const response =  await fetch("http://localhost:3000/notes");
-    const notes = await response.json();
-    console.log("notes before setState: ", notes);
-    /*this.setState(prevState => {
-      return {
-        ...prevState, 
-        notes: notes
-      }
-
-    }
-    , ()=> console.log("update state: ", this.state.notes ))*/
-    console.log("notes before despatch: " , notes);
-    return notes
-    
-    
-  }
-  
-
-   async componentDidMount(){
-    notes = await this.fetchNotes(); 
-    console.log("on component ", notes );
-    onShowNotes(notes)
-    const note = this.state.notes[0];
+   componentDidMount(){
+     console.log("on diimont");
+    this.props.onShowNotes();
   
   }
 
@@ -59,7 +32,7 @@ import ShowNotes from '../store/actions'
 
   
   componentWillReceiveProps(nextProps){ 
-   this.fetchNotes();
+   //this.fetchNotes();
   }
   
 
@@ -87,15 +60,15 @@ import ShowNotes from '../store/actions'
 }
 
 const mapStateToProps = state =>{
-
+  console.log("map  :", state.root.notes);
   return {
-    notes : state.notes
+    notes : state.root.notes
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSowNotes :(notes) => dispatch(onSowNotes(notes))
+    onShowNotes :() => dispatch(fetchStore())
 
   }
 }
@@ -115,33 +88,5 @@ const styles = StyleSheet.create({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps) (NoteListScreen);
+export default connect(mapStateToProps,mapDispatchToProps) (NoteListScreen);
 
-/*
-
-                        <ListItem noIndent style={{  fontSize: 20, color: '#000'}}> 
-                       
-                        <View >
-                        <TouchableOpacity>
-                        <View 
-                       
-                         onPress={this.openDetailsHandler}>
-                         <Text> {item.title}</Text>
-                        </View>
-                         
-                        </TouchableOpacity>
- 
-                        <TouchableOpacity>
-                         <View style={styles.right}>
-                         <Icon name="trash" style={styles.iconStyle}/>
-                         </View>
-                        </TouchableOpacity>
-                        </View>
-                      
-                        
-                  
-                          
-                    
-                        </ListItem>
-                   
-*/
